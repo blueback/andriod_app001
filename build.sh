@@ -157,7 +157,7 @@ emulator -list-avds
 # }
 
 # Attach to avd {
-emulator -avd "Pixel_API_33" -verbose -debug -sdk-path ${ANDROID_SDK_ROOT}
+emulator -avd "Pixel_API_33" -verbose
 # }
 
 # old emulation code {
