@@ -1,0 +1,17 @@
+# docker run --name app001_run -p 22:22 --rm -d -it -v "${PWD}:/usr/src/app001:cached" app001:1
+services:
+  android_app001_run:
+    image: android_app001
+    build:
+      context: .
+      no_cache: false
+    container_name: android_app001 
+    ports:
+      - "5902:5902"
+    volumes:
+      - ${PWD}:${PWD}
+    devices:
+      - /dev/dri:/dev/dri
+    attach: false
+    tty: true
+    working_dir: ${PWD}
