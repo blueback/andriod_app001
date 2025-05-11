@@ -110,10 +110,12 @@ export PATH="${PATH}:${ANDROID_HOME}/platform-tools"
 echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
 # }
 
-# Build {
-#./third_party/gradle-8.14/bin/gradle build --stacktrace --info --scan --debug
-./third_party/gradle-8.14/bin/gradle build
-# }
+if [[ "$1" = "clean" || "$1" = "build" ]] ; then
+  # Build {
+  #./third_party/gradle-8.14/bin/gradle build --stacktrace --info --scan --debug
+  ./third_party/gradle-8.14/bin/gradle build
+  # }
+fi
 
 # Create avd {
 
