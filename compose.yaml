@@ -12,6 +12,7 @@ services:
       - ${PWD}:${PWD}
     devices:
       - /dev/dri:/dev/dri
+      - /dev/kvm:/dev/kvm
     attach: false
     tty: true
     working_dir: ${PWD}
