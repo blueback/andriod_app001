@@ -2,6 +2,7 @@
 /build/
 /app/build/
 /third_party/
+/local.properties
 *.o
 *.s
 *.out
