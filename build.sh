@@ -110,63 +110,67 @@ export PATH="${PATH}:${ANDROID_HOME}/platform-tools"
 echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
 # }
 
-if [[ "$1" = "clean" || "$1" = "build" ]] ; then
+if [[ "$1" = "clean" || "$1" = "app-only" ]] ; then
   # Build {
   #./third_party/gradle-8.14/bin/gradle build --stacktrace --info --scan --debug
   ./third_party/gradle-8.14/bin/gradle build
   # }
 fi
 
-# Create avd {
+if [[ "$1" = "clean" || "$1" = "app-only" || "$1" = "emulate" ]] ; then
+  # Create avd {
+  
+  # Delete old avd {
+  # avdmanager location ./third_party/cmdline-tools/latest/bin/avdmanager
+  which avdmanager
+  avdmanager delete avd \
+      -n "Pixel_API_33"
+  # }
+  
+  # Create new avd {
+  avdmanager create avd \
+      -n "Pixel_API_33" \
+      -k "system-images;android-33;google_apis;x86_64" \
+      -d "pixel" \
+      -c 1000M \
+      --force
+  # }
+  
+  # old avd creation code {
+  #avdmanager create avd \
+  #  -n test \
+  #  -k "system-images;android-33;google_apis;x86" \
+  #  -c 1000M
+  
+  #avdmanager create avd \
+  #    -n "Pixel_API_33" \
+  #    -k "system-images;android-33;google_apis;x86_64" \
+  #    -d "pixel" \
+  #    --force
+  # }
+  
+  # }
 
-# Delete old avd {
-# avdmanager location ./third_party/cmdline-tools/latest/bin/avdmanager
-which avdmanager
-avdmanager delete avd \
-    -n "Pixel_API_33"
-# }
+  # Start Emulator {
+  
+  # List avd {
+  # emulator location ./third_party/android-sdk/emulator/emulator
+  which emulator
+  emulator -list-avds
+  # }
+  
+  # Attach to avd {
+  emulator -avd "Pixel_API_33" -verbose
+  # }
+  
+  # old emulation code {
+  #emulator -list-avds
+  #emulator -avd myapp_device
+  # }
+  
+  # }
+fi
 
-# Create new avd {
-avdmanager create avd \
-    -n "Pixel_API_33" \
-    -k "system-images;android-33;google_apis;x86_64" \
-    -d "pixel" \
-    -c 1000M \
-    --force
-# }
-
-# old avd creation code {
-#avdmanager create avd \
-#  -n test \
-#  -k "system-images;android-33;google_apis;x86" \
-#  -c 1000M
-
-#avdmanager create avd \
-#    -n "Pixel_API_33" \
-#    -k "system-images;android-33;google_apis;x86_64" \
-#    -d "pixel" \
-#    --force
-# }
-
-# }
-
-# Start Emulator {
-
-# List avd {
-# emulator location ./third_party/android-sdk/emulator/emulator
-which emulator
-emulator -list-avds
-# }
-
-# Attach to avd {
-emulator -avd "Pixel_API_33" -verbose
-# }
-
-# old emulation code {
-#emulator -list-avds
-#emulator -avd myapp_device
-# }
-
-adb install app/build/outputs/apk/debug/app-debug.apk
-
-# }
+if [ "$1" = "install" ]; then
+  adb install app/build/outputs/apk/debug/app-debug.apk
+fi
